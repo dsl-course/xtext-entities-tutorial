@@ -1,0 +1,48 @@
+grammar fi.tucs.entities.Entities with org.eclipse.xtext.common.Terminals
+
+generate entities "http://www.tucs.fi/entities/Entities"
+
+Model:
+	entities += Entity*;
+	
+Entity:
+	'entity' name=ID  ('extends' superType=[Entity])? '{'
+		fields += Field*
+		statements += Statement*
+	'}'
+;
+
+Statement:
+	PrintStatement | AssignmentStatement
+;
+
+AssignmentStatement:
+	assignee=[Field] '=' expr=Expression
+;
+
+PrintStatement:
+	'print' expr=Expression
+;
+
+Expression:
+	{IntConstant} value=INT |
+	{StringConstant} value=STRING |
+	{BoolConstant} value=('on' | 'off') |
+	{FieldRef} field=[Field]
+;
+
+Field:
+	type=FieldType name=ID
+;
+
+FieldType:
+	BasicType | EntityType
+;
+
+BasicType:
+	typeName = ('text' | 'number' | 'toggle')
+;
+
+EntityType:
+	entity = [Entity]
+;
