@@ -1,0 +1,24 @@
+entity A {
+	number x
+	number x // duplicate identifier 'x'
+	D x // can't resolve reference to 'D'
+	text y
+	B z
+	print x
+	print 25
+	print "hello"
+	print on
+	print off
+	x = 5 // types are not checked yet!
+	x = y
+	x = "hello"
+	x = on
+	x = off
+	t = 5 // can't resolve reference to 't' --- hover mouse on 't' and you'll get quickfixes (e.g., "Change to 'x'")
+}
+
+entity B extends A {
+	toggle x
+}
+
+entity C extends C {} // cycles aren't forbidden yet! 
